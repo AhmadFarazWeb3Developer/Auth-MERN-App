@@ -1,7 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 const jwt = jsonwebtoken;
 const ensureAuthenticatedUser = (req, res, next) => {
-  console.log("Ensure Authentication Called");
   const auth = req.headers["authorization"];
 
   if (!auth) {
