@@ -1,7 +1,69 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { handleSuccess } from "../utiles";
+import { ToastContainer } from "react-toastify";
 
 const Home = () => {
-  return <div>Home</div>;
+  const [loggedInUser, setLoggedInUser] = useState("");
+  const [products, setProducts] = useState([]);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoggedInUser(localStorage.getItem("loggedInUser"));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedInUser");
+    handleSuccess("User Loggedout");
+
+    setInterval(() => {
+      navigate("/login");
+    }, 1000);
+  };
+  const fetchProducts = async () => {
+    try {
+      const url = "http://localhost:8000/products";
+
+      const headers = {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      };
+      const response = await fetch(url, headers);
+      const result = await response.json();
+      console.log(result);
+      setProducts(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+  return (
+    <div>
+      <h1>{loggedInUser}</h1>
+      <button onClick={handleLogout}>Logout</button>
+
+      <div>
+        {products.map((item, index) => {
+          return (
+            <ul key={index}>
+              <span>
+                {item.name} : {item.price}
+              </span>
+            </ul>
+          );
+        })}
+      </div>
+
+      <ToastContainer />
+    </div>
+  );
 };
 
 export default Home;

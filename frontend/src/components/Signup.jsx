@@ -39,13 +39,15 @@ const Signup = () => {
         body: JSON.stringify(signupInfo),
       });
       const result = await response.json();
+      // console.log(result);
       const { success, message, error } = result;
-      // console.log(error);
       if (success) {
         handleSuccess(message);
         setTimeout(() => {
           navigate("/login");
         }, 1000);
+      } else if (message === "User already exists, you can login") {
+        handleError("User already exists, you can login");
       } else if (error) {
         const details = error?.details[0].message;
         handleError(details);

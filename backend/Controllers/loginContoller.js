@@ -34,6 +34,7 @@ const login = async (req, res) => {
       jwtToken,
       email,
       name: user.name,
+      success: true,
     });
   } catch (error) {
     console.log("Error while Loging-In ", error);
