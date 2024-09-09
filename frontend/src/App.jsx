@@ -1,16 +1,30 @@
 import "./App.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
-import Signup from "./components/signup";
+import Signup from "./components/Signup";
 import Home from "./components/Home";
+import RefreshHandler from "./components/RefreshHandler.jsx";
+import { useState } from "react";
+
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  //   Component
+  const PrivateRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  };
+
   return (
     <>
+      <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+
       <Routes>
-        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/home" element={<Home />} />
+
+        {/* The Home route is protected by PrivateRoute; only accessible if the user is authenticated */}
+        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
       </Routes>
     </>
   );

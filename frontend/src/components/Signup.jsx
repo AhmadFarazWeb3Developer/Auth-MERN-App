@@ -14,11 +14,14 @@ const Signup = () => {
 
   const signupInputHandle = (e) => {
     const { name, value } = e.target;
+    // 'name' refers to the input field's name (either 'name', 'email', or 'password')
     console.log(name, value);
-
+    // Create a copy of the current signupInfo object to avoid mutating the state directly.
     const copySignupInfo = { ...signupInfo };
+    // Dynamically update the correct field in the copied object.
+    // For example, if the user is typing in the "name" input field, this line will be:
+    // copySignupInfo["name"] = value (where 'value' is the user's input)
     copySignupInfo[name] = value;
-
     setSignupInfo(copySignupInfo);
   };
 
@@ -34,9 +37,9 @@ const Signup = () => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", // Indicating that we're sending JSON data
         },
-        body: JSON.stringify(signupInfo),
+        body: JSON.stringify(signupInfo), // Converting signupInfo object to JSON string to send to the server
       });
       const result = await response.json();
       // console.log(result);
