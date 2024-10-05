@@ -8,8 +8,10 @@ import { AuthRouter } from "./Routes/AuthRouter.js";
 import { ProductRouter } from "./Routes/ProductRouter.js";
 const app = express();
 
-app.use(bodyParser.json());
-app.use(cors()); //any one can request from world this data to server
+app.use(cors("http//localhost:3000"));
+
+app.use(bodyParser.json()); // For parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/auth", AuthRouter);
 app.use("/products", ProductRouter);

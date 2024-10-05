@@ -7,9 +7,7 @@ console.log(MONGO_URL);
 console.log(DB_NAME);
 
 mongoose
-  .connect(
-    `${MONGO_URL}/${DB_NAME}?retryWrites=true&w=majority&authSource=admin`
-  )
+  .connect(`${MONGO_URL}/${DB_NAME}`)
   .then(() => {
     console.log("Monogo DB Connected", mongoose.connection.host);
   })
